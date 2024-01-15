@@ -1,1 +1,1 @@
-print ('ahoj, studenti pythonu')
+print ('ahoj, studenti pythonu, jak to jde?')
