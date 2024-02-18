@@ -41,44 +41,57 @@ if user in users and password == users[user]:
     print(f"Welcome to the app, {user} \nWe have 3 texts to be analyzed")
     print("-" * 30)
     chosen_text = input("Enter a number btw. 1 and 3 to select: ")
-    if int(chosen_text) in (1, 2, 3):
-        pass
-    elif isinstance(int(chosen_text), int):
-        print("Your number is not in choice")
+    if chosen_text.isdigit() and int(chosen_text) in (1, 2, 3):
+        
+        text = TEXTS[int(chosen_text) - 1]
+        words = text.replace(".", "").replace(",","").split() #odstranit čárky a tečky ve větách, rozsekat na slova
+        number = len(words)
+        number2 = 0
+        titlecase = 0
+        uppercase = 0
+        lowercase = 0
+        is_numeric = 0
+        sum = 0
+        for word in words:
+            number2 += 1
+            if word.isupper():
+                uppercase += 1
+            elif word.istitle():
+                titlecase += 1
+            elif word.islower():
+                lowercase += 1
+            elif word.isdigit():
+                is_numeric += 1
+                sum += int(word)
+
+        print("-" * 30)
+
+        print(f"""There are {number} words in the selected text.\nThere are {titlecase} titlecase words.\nThere are {uppercase} uppercase words.\nThere are {lowercase} lowercase words.\nThere are {is_numeric} numeric strings.\nThe sum of all the numbers {sum}.""")
+        print("-" * 30) 
+        
+        graph = {}
+        for word in words:           #vytvoření dict jako podklad pro graph
+            word_len = len(word)
+            if word_len not in graph:
+                graph[word_len] = 1
+            else:
+                graph[word_len] += 1
+        #print(graph)
+
+        keys = list(graph.keys())
+        keys.sort()
+        sorted_graph = {str(key): graph[key] for key in keys}   #seřazení dle hodnoty od nejmenší
+        #print(sorted_graph)
+        print("-" * 30)
+        print(f"LEN| {"OCCURENCES": ^18} |NR.")
+        print("-" * 30)
+
+        for key, value in sorted_graph.items():
+            print(f"{key: >3}|{"*" * value: <20}|{value: <3}")
+    elif chosen_text.isdigit():
+        print("Your number is outside the selectable range, terminating the program...")
     else:
-        print("Unkown choice, terminating the program...") #nevím jak ošetřit string variantu
-
-    text = TEXTS[int(chosen_text) - 1]
-    words = text.replace(".", "").replace(",","").split() #odstranit čárky a tečky ve větách, rozsekat na slova
-    number = len(words)
-    number2 = 0
-    titlecase = 0
-    uppercase = 0
-    lowercase = 0
-    is_numeric = 0
-    sum = 0
-    for word in words:
-        number2 += 1
-        if word.isupper():
-            uppercase += 1
-        elif word.istitle():
-            titlecase += 1
-        elif word.islower():
-            lowercase += 1
-        elif word.isdigit():
-            is_numeric += 1
-            sum += int(word)
-    print("-" * 30)
-    print(f"""There are {number} words in the selected text.
-There are {titlecase} titlecase words.
-There are {uppercase} uppercase words.
-There are {lowercase} lowercase words.
-There are {is_numeric} numeric strings.
-The sum of all the numbers {sum}.""")
-    print("-" * 30) 
-    
-
-
+        print("Your input is not a number, terminating the program...")
 
 else:
     print("Unregistered user, terminating the program...")

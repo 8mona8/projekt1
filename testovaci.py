@@ -1,7 +1,8 @@
-pismena = ["a", "a", "b", "d", "e", "g"]
+users = {"bob": "123", "ann": "pass123", "mike": "password123", "liz": "pass123"}
+user = input("Enter your user name: ")
+password = input("Enter your password: ")
 
-while pismena: #len(pismena) != 0
-    print(", ".join(pismena))
-    zadani = input("Ktere pismeno chces vyhodit?")
-    while zadani in pismena:
-        pismena.remove(zadani)
+if user in users and password == users[user]:
+    print(f"Welcome to the app, {user}")
+else:
+    print("Unregistered user, terminating the program...")
